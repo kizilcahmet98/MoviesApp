@@ -44,7 +44,7 @@ function HomeScreen({ navigation }) {
    cardContainer: {
      height: 100,
      marginRight: 8,
-     backgroundColor: "#000000",
+     backgroundColor: "green",
      marginTop: 10,
    },
    card: {
@@ -57,7 +57,8 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Button title="Open Fav" onPress={() => navigation.navigate('fav')} />
+      <Button title="Open Fav" onPress={() => navigation.navigate('Favorites')}
+        color='green'/>
       {isLoading ? <ActivityIndicator/> : (
         <FlatList
           data={data}
@@ -84,18 +85,20 @@ function HomeScreen({ navigation }) {
 
 function StarWars(styles) {
 
+
   function AddFavSW() {
 
-  fav_list.push({ "id": "1", "title": "Star Wars", "releaseYear": "1977" })
+    fav_list.push({"id": "1", "title": "Star Wars", "releaseYear": "1977" })
 
   }
 
   return (
-    <ScrollView style={{ backgroundColor: 'red', marginHorizontal: 20, marginVertical: 10 }}>
+    <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
       <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Star Wars </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/starwars.jpg')} />
       <Button
+        color='green'
         title="Add Fav"
         onPress={AddFavSW}
       />
@@ -108,16 +111,18 @@ function StarWars(styles) {
 function bttf(styles) {
 
     function AddFavBTTF(){
+    console.log(fav_list.length)
     fav_list.push({ "id": "2", "title": "Back to the Future", "releaseYear": "1985" })
     }
 
 
   return (
-    <ScrollView style={{ backgroundColor: 'red', marginHorizontal: 20, marginVertical: 10 }}>
+    <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
       <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Back to the Future </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/bttf.jpg')} />
       <Button
+        color='green'
         title="Add Fav"
         onPress={AddFavBTTF}
       />
@@ -134,11 +139,12 @@ function TheMatrix(styles) {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: 'red', marginHorizontal: 20, marginVertical: 10 }}>
+    <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
       <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > The Matrix </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/thmatrix.jpg')} />
       <Button
+        color='green'
         title="Add Fav"
         onPress={AddFavTM}
       />
@@ -155,11 +161,12 @@ function Inception(styles) {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: 'red', marginHorizontal: 20, marginVertical: 10 }}>
+    <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
       <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Inception </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/inception.jpg')} />
       <Button
+        color='green'
         title="Add Fav"
         onPress={AddFavINC}
       />
@@ -176,11 +183,12 @@ function Interstellar(styles) {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: 'red', marginHorizontal: 20, marginVertical: 10 }}>
+    <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
       <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Interstellar </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/interstellar.jpg')} />
       <Button
+        color='green'
         title="Add Fav"
         onPress={AddFavINT}
       />
@@ -190,7 +198,7 @@ function Interstellar(styles) {
   );
 }
 
-function fav({ navigation }) {
+function Favorites({ navigation }) {
 
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -210,7 +218,7 @@ function fav({ navigation }) {
 
   useEffect(() => {
     getMovies();
-    console.log(fav_list2)
+    console.log(fav_list)
   }, []);
 
  const styles = StyleSheet.create({
@@ -281,7 +289,7 @@ export default App = () => {
         <Stack.Screen name="The Matrix" component={TheMatrix} />
         <Stack.Screen name="Inception" component={Inception} />
         <Stack.Screen name="Interstellar" component={Interstellar} />
-        <Stack.Screen name="fav" component={fav} />
+        <Stack.Screen name="Favorites" component={Favorites} />
 
       </Stack.Navigator>
     </NavigationContainer>
