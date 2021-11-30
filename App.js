@@ -21,6 +21,15 @@ function HomeScreen({ navigation }) {
      try {
       const response = await fetch('https://reactnative.dev/movies.json');
       const json = await response.json();
+
+      console.log(json[0])
+      
+      json["movies"][0]["img"] = require('./img/starwars.jpg')
+      json["movies"][1]["img"] = require('./img/bttf.jpg')
+      json["movies"][2]["img"] = require('./img/thmatrix.jpg')
+      json["movies"][3]["img"] = require('./img/inception.jpg')
+      json["movies"][4]["img"] = require('./img/interstellar.jpg')
+      
       setData(json.movies);
     } catch (error) {
       console.error(error);
@@ -38,7 +47,7 @@ function HomeScreen({ navigation }) {
      flex: 1,
      justifyContent: "center",
      paddingTop: 10,
-     backgroundColor: "#ecf0f1",
+     backgroundColor: "white",
      padding: 8,
    },
    flatList: {
@@ -46,10 +55,15 @@ function HomeScreen({ navigation }) {
      paddingVertical: 16,
    },
    cardContainer: {
-     height: 100,
+     height: 300,
      marginRight: 8,
      backgroundColor: "green",
      marginTop: 10,
+     borderWidth: 5,
+     borderBottomLeftRadius: 20,
+     borderBottomRightRadius: 20,
+     borderTopLeftRadius: 20,
+     borderTopRightRadius: 20,
    },
    card: {
      height: 100,
@@ -59,15 +73,14 @@ function HomeScreen({ navigation }) {
    text: { color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }
  });
 
- /* data[0]['img'] = "require('./img/starwars.jpg')"
- data[1]['img'] = "require('./img/bttf.jpg')"
- data[2]['img'] = "require('./img/thmatrix.jpg')"
- data[3]['img'] = "require('./img/inception.jpg')"
- data[4]['img'] = "require('./img/interstellar.jpg')" */
+
+ console.log( 'wmwmwmwmwmwmwmwmwmwmwmwmwmw' )
+ console.log( data )
+ console.log( 'wmwmwmwmwmwmwmwmwmwmwmwmwmw' )
 
   return (
     <View style={styles.container}>
-      <Button title="Open Fav" onPress={() => navigation.navigate('Favorites')}
+      <Button title="Open Favorites List" onPress={() => navigation.navigate('Favorites')}
         color='green'/>
       {isLoading ? <ActivityIndicator/> : (
         <FlatList
@@ -75,12 +88,14 @@ function HomeScreen({ navigation }) {
           keyExtractor={({ id }, index) => id}
           renderItem={({ item }) => {
             var title = item.title
+            var img = item.img
+            console.log(img)
             return (
             <TouchableOpacity
               style={styles.cardContainer}
               onPress={() => navigation.navigate(title)}
             >    
-                <Image style={{width: 35, height: 20, margin: 8}} source={item.img} />
+                <Image style = {{width: 350, height: 150, margin: 8}} source={item.img} />
                 <Text style={styles.text}> {item.title} - {item.releaseYear} </Text>
 
             </TouchableOpacity>
