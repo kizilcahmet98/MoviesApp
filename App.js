@@ -1,15 +1,19 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import react, { useEffect, useState } from 'react';
+import react, { useEffect, useState, useCallback } from 'react';
 import { ActivityIndicator, Alert, Button, ScrollView, Image, FlatList, Text, View, TouchableOpacity, StyleSheet, Card } from 'react-native';
 
-var fav_list = []
+
+const detailsData = require('./details.json');
+const favoriData = require('./favorites.json');
+
+var fav_list = [];
 
 var fav_list2 = JSON.stringify(fav_list)
 
 function HomeScreen({ navigation }) {
-
+  
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
@@ -55,6 +59,12 @@ function HomeScreen({ navigation }) {
    text: { color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }
  });
 
+ /* data[0]['img'] = "require('./img/starwars.jpg')"
+ data[1]['img'] = "require('./img/bttf.jpg')"
+ data[2]['img'] = "require('./img/thmatrix.jpg')"
+ data[3]['img'] = "require('./img/inception.jpg')"
+ data[4]['img'] = "require('./img/interstellar.jpg')" */
+
   return (
     <View style={styles.container}>
       <Button title="Open Fav" onPress={() => navigation.navigate('Favorites')}
@@ -69,7 +79,8 @@ function HomeScreen({ navigation }) {
             <TouchableOpacity
               style={styles.cardContainer}
               onPress={() => navigation.navigate(title)}
-            >
+            >    
+                <Image style={{width: 35, height: 20, margin: 8}} source={item.img} />
                 <Text style={styles.text}> {item.title} - {item.releaseYear} </Text>
 
             </TouchableOpacity>
@@ -81,118 +92,344 @@ function HomeScreen({ navigation }) {
   );
 }
 
+var favStatus = [];
+function StarWars({ navigation }) {
+  var isFav = [];
+  
+  Object.keys(fav_list).forEach(function(prop) {
+    console.log(fav_list[prop].id)
+    isFav.push(fav_list[prop].id)
+  }); 
+ 
 
-
-function StarWars(styles) {
-
+ 
+  if (isFav.indexOf("1") !== -1) {
+    console.log('fav')
+    favStatus = <Button
+                  color='green'
+                  title="Delete Fav"
+                  onPress={delFavSW}
+                />               
+  } else {
+  favStatus = <Button
+                color='green'
+                title="Add Fav"
+                onPress={AddFavSW}
+              />   
+  console.log('notfav')  
+  }
 
   function AddFavSW() {
+    navigation.navigate("Home")
 
     fav_list.push({"id": "1", "title": "Star Wars", "releaseYear": "1977" })
 
+    navigation.navigate("Star Wars")
+  }
+
+  function delFavSW() {
+    navigation.navigate("Home")
+
+    var delId = false;
+
+    Object.keys(fav_list).forEach(function(prop) {
+      //console.log(fav_list[prop].id)
+      if (fav_list[prop].id == 1){
+        delId = prop
+      }
+    }); 
+
+    const index = fav_list.indexOf(fav_list[delId]);
+    console.log(index)
+    if (index > -1) {
+      fav_list.splice(index, 1);
+    }    
+
+
+    navigation.navigate("Star Wars")
   }
 
   return (
     <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Star Wars </Text>
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[0]['title']} </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/starwars.jpg')} />
-      <Button
-        color='green'
-        title="Add Fav"
-        onPress={AddFavSW}
-      />
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth Vader. </Text>
+      {favStatus}
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[0]['description']} </Text>
 
     </ScrollView>
   );
 }
 
-function bttf(styles) {
+function bttf({ navigation }) {
+  var isFav = [];
+
+  Object.keys(fav_list).forEach(function(prop) {
+    console.log(fav_list[prop].id)
+    isFav.push(fav_list[prop].id)
+  }); 
+ 
+  console.log(!(1 in isFav))
+
+ 
+  if (isFav.indexOf("2") !== -1) {
+    console.log('fav')
+    favStatus = <Button
+                  color='green'
+                  title="Delete Fav"
+                  onPress={delFavBTTF}
+                />               
+  } else {
+  favStatus = <Button
+                color='green'
+                title="Add Fav"
+                onPress={AddFavBTTF}
+              />   
+  console.log('notfav')  
+  }
 
     function AddFavBTTF(){
-    console.log(fav_list.length)
-    fav_list.push({ "id": "2", "title": "Back to the Future", "releaseYear": "1985" })
+      navigation.navigate("Home")
+
+      fav_list.push({ "id": "2", "title": "Back to the Future", "releaseYear": "1985" })
+
+      navigation.navigate("Back to the Future")
     }
 
+    function delFavBTTF() {
+      navigation.navigate("Home")
+  
+      var delId = false;
+  
+      Object.keys(fav_list).forEach(function(prop) {
+        //console.log(fav_list[prop].id)
+        if (fav_list[prop].id == 2){
+          delId = prop
+        }
+      }); 
+  
+      const index = fav_list.indexOf(fav_list[delId]);
+      console.log(index)
+      if (index > -1) {
+        fav_list.splice(index, 1);
+      }    
+  
+  
+      navigation.navigate("Back to the Future")
+    }
 
   return (
     <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Back to the Future </Text>
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[1]['title']} </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/bttf.jpg')} />
-      <Button
-        color='green'
-        title="Add Fav"
-        onPress={AddFavBTTF}
-      />
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown. </Text>
+      {favStatus}
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[1]['description']} </Text>
 
     </ScrollView>
   );
 }
 
-function TheMatrix(styles) {
+function TheMatrix({ navigation }) {
+  var isFav = [];
+
+  Object.keys(fav_list).forEach(function(prop) {
+    console.log(fav_list[prop].id)
+    isFav.push(fav_list[prop].id)
+  }); 
+ 
+
+ 
+  if (isFav.indexOf("3") !== -1) {
+    console.log('fav')
+    favStatus = <Button
+                  color='green'
+                  title="Delete Fav"
+                  onPress={delFavTM}
+                />               
+  } else {
+  favStatus = <Button
+                color='green'
+                title="Add Fav"
+                onPress={AddFavTM}
+              />   
+  console.log('notfav')  
+  }
 
   function AddFavTM() {
-  fav_list.push( { "id": "3", "title": "The Matrix", "releaseYear": "1999" },)
+    navigation.navigate("Home")
+
+    fav_list.push({ "id": "3", "title": "The Matrix", "releaseYear": "1999" })
+
+    navigation.navigate("The Matrix")
+  }
+
+  function delFavTM() {
+    navigation.navigate("Home")
+
+    var delId = false;
+
+    Object.keys(fav_list).forEach(function(prop) {
+      //console.log(fav_list[prop].id)
+      if (fav_list[prop].id == 3){
+        delId = prop
+      }
+    }); 
+
+    const index = fav_list.indexOf(fav_list[delId]);
+    console.log(index)
+    if (index > -1) {
+      fav_list.splice(index, 1);
+    }    
+
+
+    navigation.navigate("The Matrix")
   }
 
   return (
     <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > The Matrix </Text>
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[2]['title']} </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/thmatrix.jpg')} />
-      <Button
-        color='green'
-        title="Add Fav"
-        onPress={AddFavTM}
-      />
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} >When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence. </Text>
+      {favStatus}
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[2]['description']} </Text>
 
     </ScrollView>
   );
 }
 
-function Inception(styles) {
+function Inception({ navigation }) {
+  var isFav = [];
+
+  Object.keys(fav_list).forEach(function(prop) {
+    console.log(fav_list[prop].id)
+    isFav.push(fav_list[prop].id)
+  }); 
+ 
+
+ 
+  if (isFav.indexOf("4") !== -1) {
+    console.log('fav')
+    favStatus = <Button
+                  color='green'
+                  title="Delete Fav"
+                  onPress={delFavINC}
+                />               
+  } else {
+  favStatus = <Button
+                color='green'
+                title="Add Fav"
+                onPress={AddFavINC}
+              />   
+  console.log('notfav')  
+  }
 
   function AddFavINC() {
-  fav_list.push({ "id": "4", "title": "Inception", "releaseYear": "2010" })
+    navigation.navigate("Home")
+
+    fav_list.push({ "id": "4", "title": "Inception", "releaseYear": "2010" })
+
+    navigation.navigate("Inception")
+  }
+
+  function delFavINC() {
+    navigation.navigate("Home")
+
+    var delId = false;
+
+    Object.keys(fav_list).forEach(function(prop) {
+      //console.log(fav_list[prop].id)
+      if (fav_list[prop].id == 4){
+        delId = prop
+      }
+    }); 
+
+    const index = fav_list.indexOf(fav_list[delId]);
+    console.log(index)
+    if (index > -1) {
+      fav_list.splice(index, 1);
+    }    
+
+    navigation.navigate("Inception")
+
   }
 
   return (
     <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Inception </Text>
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[3]['title']} </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/inception.jpg')} />
-      <Button
-        color='green'
-        title="Add Fav"
-        onPress={AddFavINC}
-      />
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival. </Text>
+      {favStatus}
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[3]['description']} </Text>
 
     </ScrollView>
   );
 }
 
-function Interstellar(styles) {
+function Interstellar({ navigation }) {
+  var isFav = [];
+
+  Object.keys(fav_list).forEach(function(prop) {
+    console.log(fav_list[prop].id)
+    isFav.push(fav_list[prop].id)
+  }); 
+ 
+
+ 
+  if (isFav.indexOf("5") !== -1) {
+    console.log('fav')
+    favStatus = <Button
+                  color='green'
+                  title="Delete Fav"
+                  onPress={delFavINT}
+                />               
+  } else {
+  favStatus = <Button
+                color='green'
+                title="Add Fav"
+                onPress={AddFavINT}
+              />   
+  console.log('notfav')  
+  }
 
   function AddFavINT() {
-  fav_list.push({ "id": "5", "title": "Interstellar", "releaseYear": "2014" })
+    navigation.navigate("Home")
+
+    fav_list.push({ "id": "5", "title": "Interstellar", "releaseYear": "2014" })
+
+    navigation.navigate("Interstellar")
+
+  }
+
+  function delFavINT() {
+    navigation.navigate("Home")
+
+    var delId = false;
+
+    Object.keys(fav_list).forEach(function(prop) {
+      //console.log(fav_list[prop].id)
+      if (fav_list[prop].id == 5){
+        delId = prop
+      }
+    }); 
+
+    const index = fav_list.indexOf(fav_list[delId]);
+    console.log(index)
+    if (index > -1) {
+      fav_list.splice(index, 1);
+    }    
+
+    navigation.navigate("Interstellar")
+
   }
 
   return (
     <ScrollView style={{ backgroundColor: 'grey', marginHorizontal: 20, marginVertical: 10 }}>
 
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > Interstellar </Text>
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[4]['title']} </Text>
       <Image style={{width: 355, height: 200, margin: 8}} source={require('./img/interstellar.jpg')} />
-      <Button
-        color='green'
-        title="Add Fav"
-        onPress={AddFavINT}
-      />
-      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster. </Text>
+      {favStatus}
+      <Text style={{  textAlign: 'center', color: "white", fontWeight: 'bold', fontSize: 30, margin: 15 }} > {detailsData.movies[4]['description']} </Text>
 
     </ScrollView>
   );
@@ -218,7 +455,6 @@ function Favorites({ navigation }) {
 
   useEffect(() => {
     getMovies();
-    console.log(fav_list)
   }, []);
 
  const styles = StyleSheet.create({

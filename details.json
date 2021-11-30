@@ -1,0 +1,9 @@
+{
+    "movies": [
+      { "id": "1", "title": "Star Wars", "description": "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth Vader. "},
+      { "id": "2", "title": "Back to the Future", "description": "Marty McFly, a 17-year-old high school student, is accidentally sent thirty years into the past in a time-traveling DeLorean invented by his close friend, the eccentric scientist Doc Brown. "},
+      { "id": "3", "title": "The Matrix", "description": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence. "},
+      { "id": "4", "title": "Inception", "description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival. "},
+      { "id": "5", "title": "Interstellar", "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster. "}
+    ]
+  }
